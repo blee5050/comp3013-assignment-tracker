@@ -1,7 +1,7 @@
 import styles from "./assignment.module.css";
 import { TbTrash } from "react-icons/tb";
 import {useTrackerStore} from '../../store';
-import { BsCheckCircleFill } from "react-icons/bs";
+import { BsCheckLg } from "react-icons/bs";
 
 interface AssignmentProps{
   data:{
@@ -21,13 +21,13 @@ export function Assignment({data}: AssignmentProps) {
   return (
     <div className={styles.assignment}>
       <button 
-        className={styles.checkContainer}
+        className={`${styles.checkContainer} ${data.completed ? styles.completed : ''}`}
         onClick={() => {
           setNumberOfCompleted(data.id);
           markComplete(data.id);
         }}>
         <div>
-          {data.completed && <BsCheckCircleFill size={16} />}
+          {data.completed && <BsCheckLg size={16} />}
         </div>
       </button>
 

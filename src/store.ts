@@ -21,17 +21,43 @@ interface TrackerState {
 
 export const useTrackerStore = create<TrackerState>()((set) => ({
   isEnabled: false,
-  setIsEnabled: (value) => set({isEnabled: value}),
   inputValue: '',
-  setInputValue: (value) => set({inputValue: value}),
   assignments: [],
+  completedAssignments: 0,
+  // function updates the inputValue state with a given string
+  setInputValue: (value) => set({inputValue: value}),
+  // function updates the isEnabled state with a given boolean value
+  setIsEnabled: (value) => set({isEnabled: value}),
+  // function returns new array with new Assignment added to the end
   addAssignment: (assignment) => set((state) => ({assignments: [...state.assignments, assignment]})),
-  removeAssignment: (id) => set((state) => ({assignments: state.assignments.filter((assignment) => assignment.id != id )})),
+  /*
+  function removes specified assignment from the array based on its ID
+  if assignment was was completed, the 'completedAssignments' count is decremented 
+  if not, it is left alone
+  */
+  removeAssignment: (id) => set((state) => {
+    const assignStatus = state.assignments.find(a => a.id == id);
+    const updatedAssignments = state.assignments.filter((assignment) => assignment.id != id);
+    const updateCount = assignStatus && assignStatus.completed
+    ? state.completedAssignments - 1
+    : state.completedAssignments;
+    return{
+      assignments: updatedAssignments,
+      completedAssignments: updateCount
+    };
+  }),
+  /*
+  function updates the assignments state by toggling the completed property
+  of the specified assignment, matched by ID 
+  */
   markComplete: (id) => set((state) => ({assignments: state.assignments.map((assignment) => 
     assignment.id == id ? {...assignment, completed: !assignment.completed} : assignment
-  ) })),
-  completedAssignments: 0,
-  setNumberOfCompleted: (id) => set((state)=>{
+  )})),
+  /*
+  function updates the completedAssignments state (increments or decrements) 
+  based on whether assignment is completed or not 
+  */ 
+  setNumberOfCompleted: (id) => set((state) => {
     const assignStatus = state.assignments.find(a => a.id == id);
     if (assignStatus && !assignStatus.completed){
       return {completedAssignments: state.completedAssignments + 1}; 
