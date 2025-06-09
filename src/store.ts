@@ -4,6 +4,20 @@ interface Assignment{
   id: number;
   title: string;
   completed: boolean;
+  dueDate: Date; 
+}
+
+interface PendingAssignment{
+  id: number;
+  title: string;
+  completed: boolean;
+  dueDate: Date | null;
+}
+
+interface PopupStore{
+  isOpen: boolean;
+  openPopup: () => void;
+  closePopup: () => void;
 }
 
 interface TrackerState {
@@ -17,6 +31,12 @@ interface TrackerState {
   addAssignment: (assignment: Assignment) => void;
   removeAssignment: (id: number) => void;
   markComplete: (id: number) => void;
+  selected: Date | undefined;
+  setSelected: (date: Date | undefined) => void;
+  popupCloseEnabled: boolean;
+  setPopupCloseEnabled: (value: boolean) => void;
+  pendingAssignment: PendingAssignment | null;
+  setPendingAssignment: (assignment: PendingAssignment | null) => void;
 }
 
 export const useTrackerStore = create<TrackerState>()((set) => ({
@@ -24,6 +44,20 @@ export const useTrackerStore = create<TrackerState>()((set) => ({
   inputValue: '',
   assignments: [],
   completedAssignments: 0,
+  isOpen: false,
+  selected: undefined,
+  popupCloseEnabled: false,
+  pendingAssignment: null,
+  
+  //functino updates the pendingAssignment state with a temporary assignment without the due date
+  setPendingAssignment: (assignment) => set({pendingAssignment: assignment}),
+  // function updates the popupCloseEnabled state with a given boolean value
+  setPopupCloseEnabled: (value) => set({popupCloseEnabled: value}),
+  // function updates the selected state with a date object 
+  setSelected: (date) => set({selected: date}),
+  // functions updates the isOpen state 
+  openPopup: () => set({isOpen : true}),
+  closePopup: () => set({isOpen: false}), 
   // function updates the inputValue state with a given string
   setInputValue: (value) => set({inputValue: value}),
   // function updates the isEnabled state with a given boolean value

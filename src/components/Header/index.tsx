@@ -2,14 +2,18 @@ import styles from "./header.module.css";
 import { AiOutlinePlusCircle } from "react-icons/ai";
 import { uppercase } from "../../helpers/stringHelpers";
 import {useTrackerStore} from '../../store';
+import {Popup} from './Popup';
+import {PopupContent} from './PopupContent'
 
 export function Header() {
 
-  const isEnabled = useTrackerStore((state) => state.isEnabled)
-  const setIsEnabled = useTrackerStore((state) => state.setIsEnabled)
-  const inputValue = useTrackerStore((state) => state.inputValue)
-  const setInputValue = useTrackerStore((state) => state.setInputValue)
-  const addAssignment = useTrackerStore((state) => state.addAssignment)
+  const isEnabled = useTrackerStore((state) => state.isEnabled);
+  const setIsEnabled = useTrackerStore((state) => state.setIsEnabled);
+  const inputValue = useTrackerStore((state) => state.inputValue);
+  const setInputValue = useTrackerStore((state) => state.setInputValue);
+  const openPopup = useTrackerStore((state) => state.openPopup);
+  const selected = useTrackerStore((state) => state.selected);
+  const setPendingAssignment = useTrackerStore((state) => state.setPendingAssignment);
 
   return (
     <header className={styles.header}>
@@ -19,13 +23,16 @@ export function Header() {
         className={styles.newAssignmentForm}
         onSubmit={(e) => {
           e.preventDefault();
-          addAssignment({
+          setPendingAssignment({
             id: Date.now(),
             title: inputValue.trim(),
-            completed: false
+            completed: false,
+            dueDate: null
           });
           setInputValue("");
           setIsEnabled(false);
+          openPopup();
+
         }}>
         <input 
           placeholder="Add a new assignment" 
@@ -40,6 +47,10 @@ export function Header() {
           Create <AiOutlinePlusCircle size={20} />
         </button>
       </form>
+      
+      <Popup>
+        <PopupContent />
+      </Popup>
     </header>
   );
 }

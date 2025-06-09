@@ -17,9 +17,22 @@
   margin-right: auto;
 }
 
-p.textCompleted {
+span.textCompleted {
   color: #808080;
   text-decoration: line-through;
+}
+
+span.dueDate{
+  background: #808080;
+  padding: 5px;
+  padding-left: 14px;
+  padding-right: 14px;
+  border-radius: 20px;
+  margin-left: 20px;
+}
+
+span.dueDate.warning{
+  background: red;
 }
 
 .checkContainer {

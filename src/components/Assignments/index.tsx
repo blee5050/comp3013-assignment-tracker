@@ -6,6 +6,11 @@ export function Assignments() {
     
   const completedAssignments = useTrackerStore((state) => state.completedAssignments);
   const assignments = useTrackerStore((state) => state.assignments);
+  const current = new Date();
+  const selected = useTrackerStore((state) => state.selected);
+  const daysDiff = selected
+    ? Math.ceil((selected.getTime() - current.getTime()) / (1000 * 60 * 60 * 24))
+    : null;
 
   return (
     <section className={styles.assignments}>
