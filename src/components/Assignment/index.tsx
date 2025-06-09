@@ -12,28 +12,32 @@ interface AssignmentProps{
 }
 
 export function Assignment({data}: AssignmentProps) {
+
+  const removeAssignment = useTrackerStore((state) => state.removeAssignment);
+  const setNumberOfCompleted = useTrackerStore((state) => state.setNumberOfCompleted);
+  const markComplete = useTrackerStore((state) => state.markComplete);
+  const completedAssignments = useTrackerStore((state) => state.completedAssignments);
+
   return (
     <div className={styles.assignment}>
-      <button className={styles.checkContainer}>
-        <div />
+      <button 
+        className={styles.checkContainer}
+        onClick={() => {
+          setNumberOfCompleted(data.id);
+          markComplete(data.id);
+        }}>
+        <div>
+          {data.completed && <BsCheckCircleFill size={16} />}
+        </div>
       </button>
 
-      <p>{data.title}</p>
+      <p className={data.completed ? styles.textCompleted : ''}>{data.title}</p>
 
-      <button className={styles.deleteButton}>
+      <button 
+        className={styles.deleteButton}
+        onClick={() => removeAssignment(data.id)}>
         <TbTrash size={20} />
       </button>
     </div>
   );
 }
-/*<div className={styles.assignment}>
-      <button className={styles.checkContainer}>
-        <div />
-      </button>
-
-      <p>Some Title</p>
-
-      <button className={styles.deleteButton}>
-        <TbTrash size={20} />
-      </button>
-    </div> */

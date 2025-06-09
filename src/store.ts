@@ -7,16 +7,16 @@ interface Assignment{
 }
 
 interface TrackerState {
-  // header states
   isEnabled: boolean;
   setIsEnabled: (value: boolean) => void;
   inputValue: string;
   setInputValue: (value: string) => void;
-  // assignments states
-  completedAssignments: number;
-  setNumberOfAssignments: (value: number) => void;
   assignments: Assignment[];
+  completedAssignments: number;
+  setNumberOfCompleted: (id: number) => void;
   addAssignment: (assignment: Assignment) => void;
+  removeAssignment: (id: number) => void;
+  markComplete: (id: number) => void;
 }
 
 export const useTrackerStore = create<TrackerState>()((set) => ({
@@ -24,9 +24,20 @@ export const useTrackerStore = create<TrackerState>()((set) => ({
   setIsEnabled: (value) => set({isEnabled: value}),
   inputValue: '',
   setInputValue: (value) => set({inputValue: value}),
-  toggle: () => set((state) => ({isEnabled: !state.isEnabled})),
-  completedAssignments: 0,
-  setNumberOfAssignments: (value) => set({createdAssignments: value}),
   assignments: [],
-  addAssignment: (assignment) => set((state) => ({assignments: [...state.assignments, assignment]}))
+  addAssignment: (assignment) => set((state) => ({assignments: [...state.assignments, assignment]})),
+  removeAssignment: (id) => set((state) => ({assignments: state.assignments.filter((assignment) => assignment.id != id )})),
+  markComplete: (id) => set((state) => ({assignments: state.assignments.map((assignment) => 
+    assignment.id == id ? {...assignment, completed: !assignment.completed} : assignment
+  ) })),
+  completedAssignments: 0,
+  setNumberOfCompleted: (id) => set((state)=>{
+    const assignStatus = state.assignments.find(a => a.id == id);
+    if (assignStatus && !assignStatus.completed){
+      return {completedAssignments: state.completedAssignments + 1}; 
+    }
+    else{
+      return {completedAssignments: state.completedAssignments - 1};
+    }}),
+
 }))

@@ -4,7 +4,6 @@ import {useTrackerStore} from '../../store';
 
 export function Assignments() {
     
-  const setNumberOfAssignments = useTrackerStore((state) => state.setNumberOfAssignments);
   const completedAssignments = useTrackerStore((state) => state.completedAssignments);
   const assignments = useTrackerStore((state) => state.assignments);
 
