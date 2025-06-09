@@ -20,10 +20,10 @@ export const Popup = ({children} : PopupProps) => {
  return (
     <div className={styles.popupOverlay}>
         <div className={styles.popupContent}>
-            <h2>Set a due date:</h2>
+            <h2 className={styles.popupTitle}>Set a due date:</h2>
             {children}
             <br />
-            <button disabled={!popupCloseEnabled}
+            <button className={styles.submitDate} disabled={!popupCloseEnabled}
                 onClick={()=>{
                     if(pendingAssignment){
                         addAssignment({
@@ -34,7 +34,7 @@ export const Popup = ({children} : PopupProps) => {
                     setSelected(undefined);
                     closePopup();
                     setPopupCloseEnabled(false);
-                }}>Close</button>
+                }}>Commit</button>
         </div>
     </div>
  );

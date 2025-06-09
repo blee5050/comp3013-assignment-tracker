@@ -20,7 +20,7 @@ export const PopupContent = () => {
         }
       }}
       footer={
-        selected ? `Selected: ${selected.toLocaleDateString()}` : "Pick a day."
+        selected ? `Selected: ${selected.toLocaleDateString()}` : "Set a due date..."
       }/>
   );
 };

@@ -60,12 +60,28 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(0, 0, 0, 0.4); /* semi-transparent dark background */
-  backdrop-filter: blur(5px); /* apply blur to background */
+  background: rgba(0, 0, 0, 0.4); 
+  backdrop-filter: blur(5px); 
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 1000;
+}
+
+.submitDate {
+  padding: 10px;
+  background: #4ea8de;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+}
+
+
+.popupOverlay button:disabled {
+  background: grey;
+  color:rgb(187, 187, 187); 
+  opacity: 0.8;
+  cursor: default;
 }
 
 .popupContent {
@@ -82,4 +98,8 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
+}
+
+.popupTitle{
+  color:  #4ea8de;
 }

@@ -35,6 +35,7 @@ export function Header() {
 
         }}>
         <input 
+          id="new-assignment"
           placeholder="Add a new assignment" 
           type="text"
           value={inputValue} 
