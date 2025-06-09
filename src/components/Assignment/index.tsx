@@ -22,8 +22,6 @@ function diffInDays(due: Date, today: Date): number{
   return diffInDays;
 };
 
-
-
 function calculateDue(due: Date, today: Date): string{
   
   const diff = diffInDays(due, today);
